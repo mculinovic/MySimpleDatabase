@@ -7,4 +7,3 @@ add_executable(runTests KVStoreImplSetTest.cpp KVStoreImplGetTest.cpp KVStoreImp
 
 target_link_libraries(runTests gtest gtest_main)
 target_link_libraries(runTests KVStore)
-#target_link_libraries(runTests cmake-build-debug/KVStore/libKVStore.a)

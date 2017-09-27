@@ -8,4 +8,3 @@ add_subdirectory(KVStoreTests)
 
 #add_executable(run main.cpp)
 #target_link_libraries(run KVStore)
-#target_link_libraries(run pthread)
