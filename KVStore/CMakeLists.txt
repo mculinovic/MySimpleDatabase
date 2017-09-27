@@ -7,7 +7,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
-add_subdirectory(lib/glog-0.3.5)
+add_subdirectory(vendor/glog-0.3.5)
 
 set(SOURCE_FILES include/KVStore.h db/KVStoreImpl.cpp db/KVStoreImpl.h)
 add_library(KVStore STATIC ${SOURCE_FILES})
