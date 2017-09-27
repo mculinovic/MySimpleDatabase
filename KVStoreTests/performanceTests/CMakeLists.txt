@@ -7,8 +7,8 @@ add_executable(runSimulation Simulations.cpp)
 
 target_link_libraries(runPerformance benchmark)
 target_link_libraries(runPerformance KVStore)
-target_link_libraries(runPerformance pthreads)
+#target_link_libraries(runPerformance pthreads)
 
 target_link_libraries(runSimulation benchmark)
 target_link_libraries(runSimulation KVStore)
-target_link_libraries(runSimulation pthreads)
+#target_link_libraries(runSimulation pthreads)
