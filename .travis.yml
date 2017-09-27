@@ -11,6 +11,9 @@ before_install:
     # g++
     - if [ "$CXX" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
 
+    #gflags for glog
+    sudo apt-get install libgflags-dev
+
     - sudo apt-get update -qq
 
 
