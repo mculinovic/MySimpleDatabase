@@ -3,7 +3,7 @@ project(KVStore)
 
 set(CMAKE_CXX_STANDARD 14)
 #if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  # using regular Clang or AppleClang
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 #endif()
 
 add_subdirectory(lib/glog-0.3.5)
