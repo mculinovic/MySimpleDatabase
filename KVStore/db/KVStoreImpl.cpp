@@ -5,7 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include "KVStoreImpl.h"
-#include <glog/logging.h>
+//#include <glog/logging.h>
 
 using std::ios;
 
@@ -26,7 +26,7 @@ void KVStoreImpl::Set(const std::string &key, const std::string &value) {
     _mutex.lock();
     std::fstream fs(_filename, ios::in | ios::out | ios::binary);
     if (!fs.is_open()) {
-        LOG(ERROR) << "KVStoreImpl::Set - Could not open database";
+//        LOG(ERROR) << "KVStoreImpl::Set - Could not open database";
         return;
     }
     int status = VALID;
@@ -44,7 +44,7 @@ void KVStoreImpl::Set(const std::string &key, const std::string &value) {
             fs.seekp(pos);
             fs.write(value.c_str(), VALUE_SIZE);
             fs.write(reinterpret_cast<const char *>(&status), STATUS_SIZE);
-            LOG(INFO) << "KVStoreImpl::Set Existing key (" << key << "," << value << ")";
+//            LOG(INFO) << "KVStoreImpl::Set Existing key (" << key << "," << value << ")";
             break;
         }
 
@@ -59,7 +59,7 @@ void KVStoreImpl::Set(const std::string &key, const std::string &value) {
         fs.write(key.c_str(), KEY_SIZE);
         fs.write(value.c_str(), VALUE_SIZE);
         fs.write(reinterpret_cast<const char *>(&status), STATUS_SIZE);
-        LOG(INFO) << "KVStoreImpl::Set New key (" << key << "," << value << ")";
+//        LOG(INFO) << "KVStoreImpl::Set New key (" << key << "," << value << ")";
     }
 
     fs.close();
@@ -71,7 +71,7 @@ std::experimental::optional<std::string> KVStoreImpl::Get(const std::string &key
     _mutex.lock();
     std::ifstream ifs(_filename, ios::in | ios::binary);
     if (!ifs.is_open()) {
-        LOG(ERROR) << "KVStoreImpl::Get - Could not open database";
+//        LOG(ERROR) << "KVStoreImpl::Get - Could not open database";
         return std::experimental::nullopt;
     }
 
@@ -84,13 +84,13 @@ std::experimental::optional<std::string> KVStoreImpl::Get(const std::string &key
         std::string db_key(record.key);
         auto status = static_cast<int>(*record.status);
         if (db_key == key && status == VALID) {
-            LOG(INFO) << "KVStoreImpl::Get Record found (" << key << "," << std::string(record.value) << ")";
+//            LOG(INFO) << "KVStoreImpl::Get Record found (" << key << "," << std::string(record.value) << ")";
             ifs.close();
             _mutex.unlock();
             return std::string(record.value);
         }
     }
-    LOG(INFO) << "KVStoreImpl::Get Record with key" << key << " not found";
+//    LOG(INFO) << "KVStoreImpl::Get Record with key" << key << " not found";
     ifs.close();
     _mutex.unlock();
     return std::experimental::nullopt;
@@ -101,7 +101,7 @@ bool KVStoreImpl::Delete(const std::string &key) {
     _mutex.lock();
     std::fstream fs(_filename, ios::in | ios::out | ios::binary);
     if (!fs.is_open()) {
-        LOG(ERROR) << "KVStoreImpl::Delete - Could not open database";
+//        LOG(ERROR) << "KVStoreImpl::Delete - Could not open database";
         return false;
     }
 
@@ -119,7 +119,7 @@ bool KVStoreImpl::Delete(const std::string &key) {
             fs.seekp(pos);
             fs.write(reinterpret_cast<const char *>(&status), STATUS_SIZE);
             isDeleted = true;
-            LOG(INFO) << "KVStoreImpl::Delete Record deleted (" << key << "," << std::string(record.value) << ")";
+//            LOG(INFO) << "KVStoreImpl::Delete Record deleted (" << key << "," << std::string(record.value) << ")";
             break;
         }
         fs.read(record.status, STATUS_SIZE);
@@ -136,13 +136,13 @@ void KVStoreImpl::Close() {
     _mutex.lock();
     std::ifstream ifs(_filename, ios::in | ios::binary);
     if (!ifs.is_open()) {
-       LOG(ERROR) << "Closing failed - input database could not be opened";
+//       LOG(ERROR) << "Closing failed - input database could not be opened";
         return;
     }
 
     std::ofstream ofs("temp.db", ios::out | ios::trunc | ios::binary);
     if (!ofs.is_open()) {
-        LOG(ERROR) << "Closing failed - temp database could not be opened";
+//        LOG(ERROR) << "Closing failed - temp database could not be opened";
         return;
     }
 
@@ -173,7 +173,7 @@ void KVStoreImpl::ReadData() {
     std::ifstream ifs(_filename, ios::in | ios::binary);
 
     if (!ifs.is_open()) {
-        LOG(ERROR) << "KVStoreImpl::ReadData Could not open database";
+//        LOG(ERROR) << "KVStoreImpl::ReadData Could not open database";
         return;
     }
 
@@ -209,18 +209,18 @@ int KVStoreImpl::OpenDB(const std::string& filename, bool truncate) {
         ofs.open(_filename, ios::out | ios::binary | ios::app);
     }
     if (!ofs.is_open()) {
-        LOG(FATAL) << "Database opening failed" << std::endl;
+//        LOG(FATAL) << "Database opening failed" << std::endl;
         status = 0;
     }
     ofs.close();
 
     if (!_isLoggerInitialized) {
-        google::InitGoogleLogging("KVStore");
-        LOG(INFO) << "Initializing logger";
+//        google::InitGoogleLogging("KVStore");
+//        LOG(INFO) << "Initializing logger";
         _isLoggerInitialized = true;
     }
 
-    LOG(INFO) << "Opened database " << _filename;
+//    LOG(INFO) << "Opened database " << _filename;
     _mutex.unlock();
     return status;
 }
