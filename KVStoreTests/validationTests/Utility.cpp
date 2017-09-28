@@ -1,6 +1,8 @@
-//
-// Created by mculinovic on 9/24/2017.
-//
+/**
+ * @file Utility.cpp
+ * @author Marko Culinovic <marko.culinovic@gmail.com>
+ * @brief Unit tests utility implementation file
+ */
 
 #include <fstream>
 #include "Utility.h"
