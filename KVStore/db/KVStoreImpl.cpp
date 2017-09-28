@@ -202,17 +202,17 @@ int KVStoreImpl::OpenDB(const std::string& filename, bool truncate) {
     _filename = filename;
     int status = 1;
 
-    std::ofstream ofs;
+    std::fstream fs;
     if (truncate) {
-        ofs.open(_filename, ios::out | ios::trunc | ios::binary);
+        fs.open(_filename, ios::in | ios::out | ios::trunc | ios::binary);
     } else {
-        ofs.open(_filename, ios::out | ios::binary | ios::app);
+        fs.open(_filename, ios::in | ios::out | ios::binary);
     }
-    if (!ofs.is_open()) {
+    if (!fs.is_open()) {
         LOG(FATAL) << "Database opening failed" << std::endl;
         status = 0;
     }
-    ofs.close();
+    fs.close();
 
     if (!_isLoggerInitialized) {
         google::InitGoogleLogging("KVStore");
