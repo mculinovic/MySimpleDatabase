@@ -111,11 +111,13 @@ bool KVStoreImpl::Delete(const std::string &key) {
     while (true) {
         fs.read(record.key, KEY_SIZE);
         fs.read(record.value, VALUE_SIZE);
+        auto pos = fs.tellg();
+        fs.read(record.status, STATUS_SIZE);
         if (fs.eof()) break;
 
-        auto pos = fs.tellg();
+        auto status = static_cast<int>(*record.status);
         std::string db_key(record.key);
-        if (db_key == key) {
+        if (db_key == key && status == KVStore::VALID) {
             fs.seekp(pos);
             fs.write(reinterpret_cast<const char *>(&status), STATUS_SIZE);
             isDeleted = true;
