@@ -27,7 +27,12 @@ install:
 
 
 script:
+    #build all
     - mkdir build
     - cd build
     - cmake ..
     - make
+    # run tests
+    - cd ..
+    - ./Scripts/run_unit_tests.sh
+
