@@ -23,4 +23,11 @@ namespace KVStorePerformance {
         }
         return values;
     }
+
+    void Utility::SetRecordsValidInRange(KVStore *db, const std::vector<std::string> &keys, int start, int end) {
+        auto num_records = end - start;
+        for (int i = 0; i < num_records; ++i) {
+            db->Set(keys[start + i], keys[start + i]); // writes key as value
+        }
+    }
 }
