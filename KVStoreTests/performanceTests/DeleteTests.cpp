@@ -16,13 +16,16 @@
 
 namespace KVStorePerformance {
 
-    class DeleteFixture : public benchmark::Fixture {
-
     /**
      * @brief Benchmark fixture for testing KVStore::Delete
-     * @details Opens database and prepares keys for deletion
      */
+    class DeleteFixture : public benchmark::Fixture {
+
     public:
+        /**
+         * @brief Constructor
+         * @details Opens database and prepares keys for deletion
+         */
         DeleteFixture() {
             db = nullptr;
 //            std::string db_name = "tmp/benchmark_read_10k.db";
