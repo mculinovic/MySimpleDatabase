@@ -115,17 +115,15 @@ bool KVStoreImpl::Delete(const std::string &key) {
         fs.read(record.status, STATUS_SIZE);
         if (fs.eof()) break;
 
-        auto status = static_cast<int>(*record.status);
+        auto current_status = static_cast<int>(*record.status);
         std::string db_key(record.key);
-        if (db_key == key && status == KVStore::VALID) {
+        if (db_key == key && current_status == KVStore::VALID) {
             fs.seekp(pos);
             fs.write(reinterpret_cast<const char *>(&status), STATUS_SIZE);
             isDeleted = true;
             LOG(INFO) << "KVStoreImpl::Delete Record deleted (" << key << "," << std::string(record.value) << ")";
             break;
         }
-        fs.read(record.status, STATUS_SIZE);
-        if (fs.eof()) break;
     }
 
     fs.close();
