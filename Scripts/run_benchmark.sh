@@ -2,9 +2,9 @@
 
 # create temp databases
 mkdir tmp
-cp ../KVStoreTests/databases/test10k.db tmp/benchmark_read_10k.db
-cp ../KVStoreTests/databases/test10k.db tmp/benchmark_write_10k.db
-cp ../KVStoreTests/databases/test10k.db tmp/benchmark_delete_10k.db
+cp ./KVStoreTests/databases/test10k.db tmp/benchmark_read_10k.db
+cp ./KVStoreTests/databases/test10k.db tmp/benchmark_write_10k.db
+cp ./KVStoreTests/databases/test10k.db tmp/benchmark_delete_10k.db
 
 #set log for database using GLOG environment variable
 mkdir benchmark_logs
