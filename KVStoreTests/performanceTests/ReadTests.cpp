@@ -28,8 +28,7 @@ namespace KVStorePerformance {
          */
         ReadFixture() {
             db = nullptr;
-//            std::string db_name = "tmp/benchmark_read_10k.db";
-            std::string db_name = "benchmarkTestRead.db";
+            std::string db_name = "tmp/benchmark_read_10k.db";
             KVStore::Open(db_name, &db);
             int recordsCount = 1000;
             std::string empty_prefix;

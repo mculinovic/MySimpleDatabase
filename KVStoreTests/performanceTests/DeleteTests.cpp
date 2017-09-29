@@ -28,8 +28,7 @@ namespace KVStorePerformance {
          */
         DeleteFixture() {
             db = nullptr;
-//            std::string db_name = "tmp/benchmark_read_10k.db";
-            std::string db_name = "benchmarkTestDelete.db";
+            std::string db_name = "tmp/benchmark_delete_10k.db";
             KVStore::Open(db_name, &db);
             num_records = 1000;
             std::string empty_prefix;

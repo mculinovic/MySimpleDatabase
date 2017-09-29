@@ -34,8 +34,7 @@ namespace KVStorePerformance {
         auto values = Utility::constructValues(state.range(0), value_prefix);
         while (state.KeepRunning()) {
             state.PauseTiming();
-//            std::string db_name = "tmp/benchmark_read_10k.db";
-            std::string db_name = "benchmarkFill.db";
+            std::string db_name = "tmp/benchmark_fill.db";
             KVStore *db;
             KVStore::Open(db_name, &db, true);
             state.ResumeTiming();
@@ -66,8 +65,7 @@ namespace KVStorePerformance {
          */
         WriteFixture() {
             db = nullptr;
-//            std::string db_name = "tmp/benchmark_read_10k.db";
-            std::string db_name = "benchmarkTestWrite.db";
+            std::string db_name = "tmp/benchmark_write_10k.db";
             KVStore::Open(db_name, &db);
             int recordsCount = 1000;
             std::string empty_prefix;
