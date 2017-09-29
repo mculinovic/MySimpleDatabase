@@ -45,7 +45,7 @@ static void BM_SimulateReadOnlyDatabase(benchmark::State& state) {
     state.SetBytesProcessed(state.iterations() * records_per_thread * RECORD_SIZE);
 }
 
-BENCHMARK(BM_SimulateReadOnlyDatabase)->Threads(4)->Args({10000})->Repetitions(3);
+BENCHMARK(BM_SimulateReadOnlyDatabase)->Threads(4)->Args({1000})->Repetitions(3);
 
 
 /**
@@ -92,7 +92,7 @@ static void BM_SimulateDatabaseRead(benchmark::State& state) {
     state.SetBytesProcessed(state.iterations() * records_per_thread * RECORD_SIZE);
 }
 
-BENCHMARK(BM_SimulateDatabaseRead)->Threads(4)->Args({10000})->Repetitions(3);
+BENCHMARK(BM_SimulateDatabaseRead)->Threads(4)->Args({1000})->Repetitions(3);
 
 
 /**
@@ -139,7 +139,7 @@ static void BM_SimulateDatabaseSet(benchmark::State& state) {
     state.SetBytesProcessed(state.iterations() * records_per_thread * RECORD_SIZE);
 }
 
-BENCHMARK(BM_SimulateDatabaseSet)->Threads(4)->Args({10000})->Repetitions(3);
+BENCHMARK(BM_SimulateDatabaseSet)->Threads(4)->Args({1000})->Repetitions(3);
 
 BENCHMARK_MAIN();
 
