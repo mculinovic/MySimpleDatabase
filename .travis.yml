@@ -34,5 +34,8 @@ script:
     - make
     # run tests
     - cd ..
+    # unit tests
     - ./Scripts/run_unit_tests.sh
+    # performance tests
+    - ./Scripts/run_benchmark.sh
 
