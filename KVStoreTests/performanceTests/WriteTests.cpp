@@ -34,7 +34,7 @@ namespace KVStorePerformance {
         auto values = Utility::constructValues(state.range(0), value_prefix);
         while (state.KeepRunning()) {
             state.PauseTiming();
-            std::string db_name = "tmp/benchmark_fill.db";
+            std::string db_name = "./tmp/benchmark_fill.db";
             KVStore *db;
             KVStore::Open(db_name, &db, true);
             state.ResumeTiming();
@@ -65,8 +65,7 @@ namespace KVStorePerformance {
          */
         WriteFixture() {
             db = nullptr;
-            std::string db_name = "tmp/benchmark_write_10k.db";
-            KVStore::Open(db_name, &db);
+            db_name = "./tmp/benchmark_write_10k.db";
             int recordsCount = 1000;
             std::string empty_prefix;
             keys = Utility::constructKeys(recordsCount, empty_prefix);
@@ -78,6 +77,7 @@ namespace KVStorePerformance {
         }
 
         KVStore *db;
+        std::string db_name;
         std::vector<std::string> keys;
         std::vector<std::string> values;
     };
@@ -92,6 +92,7 @@ namespace KVStorePerformance {
      * 2) number of records for set operation
      */
     BENCHMARK_DEFINE_F(WriteFixture, BM_KVStoreWriteSeq)(benchmark::State& state) {
+        KVStore::Open(db_name, &db);
         int records_per_thread = state.range(0) / state.threads;
         int start = records_per_thread * state.thread_index;
         while (state.KeepRunning()) {
@@ -109,6 +110,7 @@ namespace KVStorePerformance {
 
 
     BENCHMARK_DEFINE_F(WriteFixture, BM_KVStoreWriteRandom)(benchmark::State& state) {
+        KVStore::Open(db_name, &db);
         int records_per_thread = state.range(0) / state.threads;
         std::random_device rd;  //Will be used to obtain a seed for the random number engine
         std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()

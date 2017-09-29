@@ -28,8 +28,7 @@ namespace KVStorePerformance {
          */
         ReadFixture() {
             db = nullptr;
-            std::string db_name = "tmp/benchmark_read_10k.db";
-            KVStore::Open(db_name, &db);
+            db_name = "./tmp/benchmark_read_10k.db";
             int recordsCount = 1000;
             std::string empty_prefix;
             keys = Utility::constructKeys(recordsCount, empty_prefix);
@@ -40,6 +39,7 @@ namespace KVStorePerformance {
         }
 
         KVStore *db;
+        std::string db_name;
         std::vector<std::string> keys;
     };
 
@@ -53,6 +53,7 @@ namespace KVStorePerformance {
      * 2) number of records for get operation
      */
     BENCHMARK_DEFINE_F(ReadFixture, BM_KVStoreReadSeq)(benchmark::State& state) {
+        KVStore::Open(db_name, &db);
         int records_per_thread = state.range(0) / state.threads;
         while (state.KeepRunning()) {
             for (int i = 0; i < records_per_thread; ++i) {
@@ -77,6 +78,7 @@ namespace KVStorePerformance {
      * 2) number of records for get operation
      */
     BENCHMARK_DEFINE_F(ReadFixture, BM_KVStoreReadRandom)(benchmark::State& state) {
+        KVStore::Open(db_name, &db);
         int records_per_thread = state.range(0) / state.threads;
         std::random_device rd;  //Will be used to obtain a seed for the random number engine
         std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()

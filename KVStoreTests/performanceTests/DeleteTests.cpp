@@ -28,14 +28,14 @@ namespace KVStorePerformance {
          */
         DeleteFixture() {
             db = nullptr;
-            std::string db_name = "tmp/benchmark_delete_10k.db";
-            KVStore::Open(db_name, &db);
+            db_name = "./tmp/benchmark_delete_10k.db";
             num_records = 1000;
             std::string empty_prefix;
             keys = Utility::constructKeys(num_records, empty_prefix);
         }
 
         KVStore *db;
+        std::string db_name;
         std::vector<std::string> keys;
         int num_records;
     };
@@ -50,6 +50,7 @@ namespace KVStorePerformance {
      * 2) number of records to delete
      */
     BENCHMARK_DEFINE_F(DeleteFixture, BM_KVStoreDeleteSeq)(benchmark::State& state) {
+        KVStore::Open(db_name, &db);
         if (state.thread_index == 0) {
             Utility::SetRecordsValidInRange(db, keys, 0, num_records);
         }
@@ -86,6 +87,7 @@ namespace KVStorePerformance {
      * 2) number of records to delete
      */
     BENCHMARK_DEFINE_F(DeleteFixture, BM_KVStoreDeleteRandom)(benchmark::State& state) {
+        KVStore::Open(db_name, &db);
         if (state.thread_index == 0) {
             // set all records in database valid
             Utility::SetRecordsValidInRange(db, keys, 0, num_records);
