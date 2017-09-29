@@ -14,7 +14,7 @@ GLOG_log_dir="./simulation_logs"
 mkdir simulation_output
 
 # run benchmark
-./build/KVStoreTests/bin/runPerformance --benchmark_out="simulation_output/simulation.json" --benchmark_out_format=json
+./build/KVStoreTests/bin/runSimulation --benchmark_out="simulation_output/simulation.json" --benchmark_out_format=json
 
 # delete tmp databases
 rm -rf tmp
