@@ -27,7 +27,8 @@
 static void BM_SimulateReadOnlyDatabase(benchmark::State& state) {
     int records_per_thread = state.range(0) / state.threads;
     KVStore *db;
-    KVStore::Open("simulate_read_only_10k.db", &db);
+    std::string db_path("./tmp/simulate_read_only_10k.db");
+    KVStore::Open(db_path, &db);
 
     std::random_device rd;  //Will be used to obtain a seed for the random number engine
     std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
@@ -60,7 +61,8 @@ BENCHMARK(BM_SimulateReadOnlyDatabase)->Threads(4)->Args({10000})->Repetitions(3
 static void BM_SimulateDatabaseRead(benchmark::State& state) {
     int records_per_thread = state.range(0) / state.threads;
     KVStore *db;
-    KVStore::Open("simulate_get_10k.db", &db);
+    std::string db_path("./tmp/simulate_get_10k.db");
+    KVStore::Open(db_path, &db);
 
     std::random_device rd;  //Will be used to obtain a seed for the random number engine
     std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
@@ -106,7 +108,8 @@ BENCHMARK(BM_SimulateDatabaseRead)->Threads(4)->Args({10000})->Repetitions(3);
 static void BM_SimulateDatabaseSet(benchmark::State& state) {
     int records_per_thread = state.range(0) / state.threads;
     KVStore *db;
-    KVStore::Open("simulate_set_10k.db", &db);
+    std::string db_path("./tmp/simulate_set_10k.db");
+    KVStore::Open(db_path, &db);
 
     std::random_device rd;  //Will be used to obtain a seed for the random number engine
     std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
