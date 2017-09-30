@@ -30,7 +30,7 @@ script:
     #build all
     - mkdir build
     - cd build
-    - cmake ..
+    - cmake -DCMAKE_BUILD_TYPE=Release ..
     - make
     # run tests
     - cd ..
