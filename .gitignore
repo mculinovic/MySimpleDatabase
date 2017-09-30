@@ -2,3 +2,6 @@
 cmake-build-debug/
 cmake-build-release/
 build/
+unit_tests_logs/
+simulation_logs/
+benchmark_logs/
