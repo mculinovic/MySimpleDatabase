@@ -33,8 +33,6 @@ public:
 
     virtual bool Delete(const std::string &key) = 0;
 
-    virtual void ReadData() = 0;
-
     enum RecordStatus {
         INVALID,
         VALID

@@ -28,9 +28,9 @@ namespace KVStoreValidation {
 
         virtual void SetUp() {
             db_name = "validateGet.db";
-            // open database with truncate option
-            KVStore::Open(db_name, &db, true);
             SetupInitialData();
+            // open database
+            KVStore::Open(db_name, &db);
         }
 
         void SetupInitialData() {

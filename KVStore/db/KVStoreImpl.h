@@ -9,6 +9,7 @@
 
 #include <string>
 #include <mutex>
+#include <unordered_map>
 
 class KVStoreImpl: public KVStore {
 public:
@@ -22,15 +23,16 @@ public:
     std::experimental::optional<std::string> Get(const std::string &key) override;
     bool Delete(const std::string &key) override;
     void Close() override;
-    void ReadData() override;
 
 private:
     friend class KVStore;
     std::mutex _mutex;
     std::string _filename;
     bool _isLoggerInitialized;
+    std::unordered_map<std::string, int> _offset;
 
     int OpenDB(const std::string& filename, bool truncate);
+    void ReadData();
 
     static KVStoreImpl& Instance() {
         static KVStoreImpl instance;

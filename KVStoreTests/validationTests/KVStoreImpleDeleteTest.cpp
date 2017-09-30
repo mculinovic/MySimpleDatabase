@@ -29,12 +29,12 @@ namespace KVStoreValidation {
 
         virtual void SetUp() {
             db_name = "validateDelete.db";
-            // open database with truncate option
-            KVStore::Open(db_name, &db, true);
             key_buffer = new char[KEY_SIZE];
             value_buffer = new char[VALUE_SIZE];
             status_buffer = new char[RECORD_SIZE];
             SetupInitialData();
+            // open database
+            KVStore::Open(db_name, &db);
         }
 
         void SetupInitialData() {

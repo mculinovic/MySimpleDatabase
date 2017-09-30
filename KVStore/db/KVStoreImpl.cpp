@@ -30,38 +30,18 @@ void KVStoreImpl::Set(const std::string &key, const std::string &value) {
         return;
     }
     int status = VALID;
-
-    KVStoreRecord record{};
-    bool keyExists = false;
-    while (true) {
-        fs.read(record.key, KEY_SIZE);
-        if (fs.eof()) break;
-
-        auto pos = fs.tellg();
-        std::string db_key(record.key);
-        if (db_key == key) {
-            keyExists = true;
-            fs.seekp(pos);
-            fs.write(value.c_str(), VALUE_SIZE);
-            fs.write(reinterpret_cast<const char *>(&status), STATUS_SIZE);
-            LOG(INFO) << "KVStoreImpl::Set Existing key (" << key << "," << value << ")";
-            break;
-        }
-
-        fs.read(record.value, VALUE_SIZE);
-        fs.read(record.status, STATUS_SIZE);
-        if (fs.eof()) break;
-    }
-
-    if (!keyExists) {
-        fs.clear();
+    if (_offset.find(key) != _offset.end()) {
+        fs.seekp(_offset[key]);
+        LOG(INFO) << "KVStoreImpl::Set Existing key (" << key << "," << value << ")";
+    } else {
         fs.seekp(0, ios::end);
-        fs.write(key.c_str(), KEY_SIZE);
-        fs.write(value.c_str(), VALUE_SIZE);
-        fs.write(reinterpret_cast<const char *>(&status), STATUS_SIZE);
+        auto pos = fs.tellp();
+        _offset.emplace(key, pos);
         LOG(INFO) << "KVStoreImpl::Set New key (" << key << "," << value << ")";
     }
-
+    fs.write(key.c_str(), KEY_SIZE);
+    fs.write(value.c_str(), VALUE_SIZE);
+    fs.write(reinterpret_cast<const char *>(&status), STATUS_SIZE);
     fs.close();
 }
 
@@ -74,12 +54,12 @@ std::experimental::optional<std::string> KVStoreImpl::Get(const std::string &key
         return std::experimental::nullopt;
     }
 
-    KVStoreRecord record{};
-    while (true) {
+    if (_offset.find(key) != _offset.end()) {
+        ifs.seekg(_offset[key]);
+        KVStoreRecord record{};
         ifs.read(record.key, KEY_SIZE);
         ifs.read(record.value, VALUE_SIZE);
         ifs.read(record.status, STATUS_SIZE);
-        if (ifs.eof()) break;
         std::string db_key(record.key);
         auto status = static_cast<int>(*record.status);
         if (db_key == key && status == VALID) {
@@ -88,9 +68,10 @@ std::experimental::optional<std::string> KVStoreImpl::Get(const std::string &key
             return std::string(record.value);
         }
     }
-    LOG(INFO) << "KVStoreImpl::Get Record with key" << key << " not found";
     ifs.close();
+    LOG(INFO) << "KVStoreImpl::Get Record with key" << key << " not found";
     return std::experimental::nullopt;
+
 }
 
 
@@ -103,28 +84,22 @@ bool KVStoreImpl::Delete(const std::string &key) {
     }
 
     int status = INVALID;
-    KVStoreRecord record{};
-    bool isDeleted = false;
-    while (true) {
+    if (_offset.find(key) != _offset.end()) {
+        fs.seekp(_offset[key]);
+        KVStoreRecord record{};
         fs.read(record.key, KEY_SIZE);
         fs.read(record.value, VALUE_SIZE);
         auto pos = fs.tellg();
         fs.read(record.status, STATUS_SIZE);
-        if (fs.eof()) break;
-
         auto current_status = static_cast<int>(*record.status);
-        std::string db_key(record.key);
-        if (db_key == key && current_status == KVStore::VALID) {
+        if (current_status == KVStore::VALID) {
             fs.seekp(pos);
             fs.write(reinterpret_cast<const char *>(&status), STATUS_SIZE);
-            isDeleted = true;
             LOG(INFO) << "KVStoreImpl::Delete Record deleted (" << key << "," << std::string(record.value) << ")";
-            break;
+            return true;
         }
     }
-
-    fs.close();
-    return isDeleted;
+    return false;
 }
 
 
@@ -165,6 +140,7 @@ void KVStoreImpl::Close() {
 
 
 void KVStoreImpl::ReadData() {
+    _offset.clear();
     std::ifstream ifs(_filename, ios::in | ios::binary);
 
     if (!ifs.is_open()) {
@@ -173,21 +149,15 @@ void KVStoreImpl::ReadData() {
     }
 
     KVStoreRecord record{};
-    int recordsCount = 0;
     while (true) {
+        auto pos = ifs.tellg();
         ifs.read(record.key, KEY_SIZE);
         ifs.read(record.value, VALUE_SIZE);
         ifs.read(record.status, STATUS_SIZE);
         if (ifs.eof()) break;
 
-        ++recordsCount;
-        std::string key(record.key);
-        std::string value(record.value);
-        int status = static_cast<int>(*record.status);
-        std::cout << key << " = " << value << " " << status << std::endl;
+        _offset.emplace(record.key, pos);
     }
-
-    std::cout << recordsCount << std::endl;
     ifs.close();
 }
 
@@ -214,6 +184,8 @@ int KVStoreImpl::OpenDB(const std::string& filename, bool truncate) {
         LOG(INFO) << "Initializing logger";
         _isLoggerInitialized = true;
     }
+
+    ReadData();
 
     LOG(INFO) << "Opened database " << _filename;
     return status;
