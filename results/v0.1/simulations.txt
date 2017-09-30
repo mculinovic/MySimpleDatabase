@@ -1,0 +1,23 @@
+Run on (2 X 2300 MHz CPU s)
+2017-09-30 22:50:51
+---------------------------------------------------------------------------------------------------
+Benchmark                                                            Time           CPU Iterations
+---------------------------------------------------------------------------------------------------
+BM_SimulateReadOnlyDatabase/1000/repeats:3/threads:4        34975386647 ns  208156830 ns          4   140.744kB/s   1.17287k items/s
+BM_SimulateReadOnlyDatabase/1000/repeats:3/threads:4        33587654672 ns  207547655 ns          4   141.157kB/s   1.17631k items/s
+BM_SimulateReadOnlyDatabase/1000/repeats:3/threads:4        34149260209 ns  201472981 ns          4   145.413kB/s   1.21178k items/s
+BM_SimulateReadOnlyDatabase/1000/repeats:3/threads:4_mean   34237433843 ns  205725822 ns          4   142.438kB/s   1.18699k items/s
+BM_SimulateReadOnlyDatabase/1000/repeats:3/threads:4_median 34149260209 ns  207547655 ns          4   141.157kB/s   1.17631k items/s
+BM_SimulateReadOnlyDatabase/1000/repeats:3/threads:4_stddev  698055120 ns    3695642 ns          4   2.58477kB/s    22.0567 items/s
+BM_SimulateDatabaseRead/1000/repeats:3/threads:4            34467730865 ns  296641634 ns          4   98.7618kB/s    842.768 items/s
+BM_SimulateDatabaseRead/1000/repeats:3/threads:4            34083095606 ns  300048032 ns          4   97.6406kB/s      833.2 items/s
+BM_SimulateDatabaseRead/1000/repeats:3/threads:4            34670901981 ns  299929323 ns          4   97.6793kB/s     833.53 items/s
+BM_SimulateDatabaseRead/1000/repeats:3/threads:4_mean       34407242817 ns  298872996 ns          4   98.0272kB/s    836.499 items/s
+BM_SimulateDatabaseRead/1000/repeats:3/threads:4_median     34467730865 ns  299929323 ns          4   97.6793kB/s     833.53 items/s
+BM_SimulateDatabaseRead/1000/repeats:3/threads:4_stddev      298535067 ns    1933328 ns          4    651.754B/s    5.43128 items/s
+BM_SimulateDatabaseSet/1000/repeats:3/threads:4             34142733477 ns  332897230 ns          4   88.0058kB/s    750.983 items/s
+BM_SimulateDatabaseSet/1000/repeats:3/threads:4             34045641628 ns  333515627 ns          4   87.8426kB/s     749.59 items/s
+BM_SimulateDatabaseSet/1000/repeats:3/threads:4             33755915100 ns  355360021 ns          4   82.4428kB/s    703.512 items/s
+BM_SimulateDatabaseSet/1000/repeats:3/threads:4_mean        33981430068 ns  340590959 ns          4    86.097kB/s    734.695 items/s
+BM_SimulateDatabaseSet/1000/repeats:3/threads:4_median      34045641628 ns  333515627 ns          4   87.8426kB/s     749.59 items/s
+BM_SimulateDatabaseSet/1000/repeats:3/threads:4_stddev       201244770 ns   12794119 ns          4   3.16572kB/s    27.0142 items/s

@@ -1,0 +1,46 @@
+
+Run on (2 X 2300 MHz CPU s)
+2017-09-30 22:49:23
+-------------------------------------------------------------------------------------------
+Benchmark                                                    Time           CPU Iterations
+-------------------------------------------------------------------------------------------
+BM_KVStoreFill/1                                          7124 ns       7011 ns     100480   16.3238MB/s   139.296k items/s
+BM_KVStoreFill/10                                        51861 ns      51329 ns      13700   22.2957MB/s   190.256k items/s
+BM_KVStoreFill/100                                      498642 ns     496486 ns       1413   23.0502MB/s   196.695k items/s
+BM_KVStoreFill/1000                                    5091015 ns    5050983 ns        138   22.6572MB/s   193.341k items/s
+WriteFixture/BM_KVStoreWriteSeq/100                     442457 ns     438924 ns       1601   26.0731MB/s    222.49k items/s
+WriteFixture/BM_KVStoreWriteSeq/1000                   4479627 ns    4401780 ns        158   25.9988MB/s   221.856k items/s
+WriteFixture/BM_KVStoreWriteSeq/100/threads:2           416687 ns     583475 ns       1546   9.80683MB/s    83.685k items/s
+WriteFixture/BM_KVStoreWriteSeq/1000/threads:2         4704923 ns    6460573 ns        148   8.85687MB/s   75.5786k items/s
+WriteFixture/BM_KVStoreWriteSeq/100/threads:4           283189 ns     448961 ns       1948   6.37255MB/s   54.3791k items/s
+WriteFixture/BM_KVStoreWriteSeq/1000/threads:4         2517014 ns    3997775 ns        204   7.15654MB/s   61.0691k items/s
+WriteFixture/BM_KVStoreWriteRandom/100                  487042 ns     486414 ns       1436   23.5275MB/s   200.768k items/s
+WriteFixture/BM_KVStoreWriteRandom/1000                4939286 ns    4920530 ns        143   23.2578MB/s   198.467k items/s
+WriteFixture/BM_KVStoreWriteRandom/100/threads:2        511375 ns     684331 ns       1038   8.36152MB/s   71.3516k items/s
+WriteFixture/BM_KVStoreWriteRandom/1000/threads:2      5217448 ns    6938271 ns        110   8.24708MB/s   70.3751k items/s
+WriteFixture/BM_KVStoreWriteRandom/100/threads:4        255468 ns     394802 ns       1692   7.24672MB/s   61.8387k items/s
+WriteFixture/BM_KVStoreWriteRandom/1000/threads:4      2549916 ns    3976283 ns        164   7.19522MB/s   61.3992k items/s
+ReadFixture/BM_KVStoreReadSeq/100                       462458 ns     459503 ns       1524   24.9054MB/s   212.526k items/s
+ReadFixture/BM_KVStoreReadSeq/1000                     4693922 ns    4649734 ns        151   24.6124MB/s   210.025k items/s
+ReadFixture/BM_KVStoreReadSeq/100/threads:2             200625 ns     389500 ns       1784   14.6907MB/s   125.361k items/s
+ReadFixture/BM_KVStoreReadSeq/1000/threads:2           1996270 ns    3898000 ns        178   14.6794MB/s   125.265k items/s
+ReadFixture/BM_KVStoreReadSeq/100/threads:4              99146 ns     194688 ns       3596   14.6954MB/s   125.401k items/s
+ReadFixture/BM_KVStoreReadSeq/1000/threads:4           1006202 ns    1978248 ns        348   14.4624MB/s   123.413k items/s
+ReadFixture/BM_KVStoreReadRandom/100                    516355 ns     516230 ns       1347   22.1686MB/s   189.172k items/s
+ReadFixture/BM_KVStoreReadRandom/1000                  5178071 ns    5162135 ns        135   22.1693MB/s   189.178k items/s
+ReadFixture/BM_KVStoreReadRandom/100/threads:2          205875 ns     403611 ns       1722   14.1771MB/s   120.978k items/s
+ReadFixture/BM_KVStoreReadRandom/1000/threads:2        2080493 ns    4079390 ns        170   14.0267MB/s   119.695k items/s
+ReadFixture/BM_KVStoreReadRandom/100/threads:4          104331 ns     203418 ns       3464   14.0648MB/s   120.019k items/s
+ReadFixture/BM_KVStoreReadRandom/1000/threads:4        1069241 ns    2073526 ns        336   13.7979MB/s   117.742k items/s
+DeleteFixture/BM_KVStoreDeleteSeq/100                   574549 ns     570805 ns       1210   20.0491MB/s   171.085k items/s
+DeleteFixture/BM_KVStoreDeleteSeq/1000                 5783956 ns    5734262 ns        122   19.9574MB/s   170.303k items/s
+DeleteFixture/BM_KVStoreDeleteSeq/100/threads:2         550459 ns     728893 ns       1062   7.85033MB/s   66.9895k items/s
+DeleteFixture/BM_KVStoreDeleteSeq/1000/threads:2       5837738 ns    7450771 ns        112    7.6798MB/s   65.5343k items/s
+DeleteFixture/BM_KVStoreDeleteSeq/100/threads:4         176774 ns     337558 ns       1916   8.47565MB/s   72.3256k items/s
+DeleteFixture/BM_KVStoreDeleteSeq/1000/threads:4       2622357 ns    4635841 ns        196   6.17153MB/s   52.6637k items/s
+DeleteFixture/BM_KVStoreDeleteRandom/100                506003 ns     505353 ns       1395   22.6457MB/s   193.244k items/s
+DeleteFixture/BM_KVStoreDeleteRandom/1000              5112728 ns    5114260 ns        138   22.3768MB/s   190.949k items/s
+DeleteFixture/BM_KVStoreDeleteRandom/100/threads:2      721029 ns     836853 ns        900   6.83758MB/s   58.3473k items/s
+DeleteFixture/BM_KVStoreDeleteRandom/1000/threads:2    7463527 ns    8561461 ns         84   6.68349MB/s   57.0325k items/s
+DeleteFixture/BM_KVStoreDeleteRandom/100/threads:4      422544 ns     533268 ns       1384   5.36508MB/s    45.782k items/s
+DeleteFixture/BM_KVStoreDeleteRandom/1000/threads:4    3912130 ns    4991054 ns        136    5.7323MB/s   48.9156k items/s
