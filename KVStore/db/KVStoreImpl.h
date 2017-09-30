@@ -1,6 +1,7 @@
-//
-// Created by mculinovic on 9/19/2017.
-//
+/**
+ * @file KVStoreImpl.h
+ * @author Marko Culinovic <marko.culinovic@gmail.com>
+ */
 
 #ifndef KVSTORE_KVSTOREIMPL_H
 #define KVSTORE_KVSTOREIMPL_H
@@ -30,17 +31,22 @@ private:
     std::shared_timed_mutex _mutex;
     std::string _filename;
     bool _isLoggerInitialized;
+    // key, offset map  - offset is position of record in file if looked from file beginning
     std::unordered_map<std::string, int> _offset;
 
+    // tries to open database
     int OpenDB(const std::string& filename, bool truncate);
+    // reads whole database and memorizes records offsets from beginning of file
     void ReadData();
 
+    // local static singleton - thread safe
     static KVStoreImpl& Instance() {
         static KVStoreImpl instance;
         return instance;
     }
 };
 
+// helper struct for reading database record
 struct KVStoreRecord {
     char key[KEY_SIZE];
     char value[VALUE_SIZE];

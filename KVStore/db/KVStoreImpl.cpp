@@ -1,6 +1,7 @@
-//
-// Created by mculinovic on 9/19/2017.
-//
+/**
+ * @file KVStoreImpl.cpp
+ * @author Marko Culinovic <marko.culinovic@gmail.com>
+ */
 
 #include <iostream>
 #include <fstream>
