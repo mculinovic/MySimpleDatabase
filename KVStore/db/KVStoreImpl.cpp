@@ -23,7 +23,7 @@ void KVStore::Open(const std::string& filename, KVStore **db, bool truncate) {
 
 
 void KVStoreImpl::Set(const std::string &key, const std::string &value) {
-    _mutex.lock();
+    std::lock_guard<std::mutex> lock(_mutex);
     std::fstream fs(_filename, ios::in | ios::out | ios::binary);
     if (!fs.is_open()) {
         LOG(ERROR) << "KVStoreImpl::Set - Could not open database";
@@ -63,12 +63,11 @@ void KVStoreImpl::Set(const std::string &key, const std::string &value) {
     }
 
     fs.close();
-    _mutex.unlock();
 }
 
 
 std::experimental::optional<std::string> KVStoreImpl::Get(const std::string &key) {
-    _mutex.lock();
+    std::lock_guard<std::mutex> lock(_mutex);
     std::ifstream ifs(_filename, ios::in | ios::binary);
     if (!ifs.is_open()) {
         LOG(ERROR) << "KVStoreImpl::Get - Could not open database";
@@ -86,19 +85,17 @@ std::experimental::optional<std::string> KVStoreImpl::Get(const std::string &key
         if (db_key == key && status == VALID) {
             LOG(INFO) << "KVStoreImpl::Get Record found (" << key << "," << std::string(record.value) << ")";
             ifs.close();
-            _mutex.unlock();
             return std::string(record.value);
         }
     }
     LOG(INFO) << "KVStoreImpl::Get Record with key" << key << " not found";
     ifs.close();
-    _mutex.unlock();
     return std::experimental::nullopt;
 }
 
 
 bool KVStoreImpl::Delete(const std::string &key) {
-    _mutex.lock();
+    std::lock_guard<std::mutex> lock(_mutex);
     std::fstream fs(_filename, ios::in | ios::out | ios::binary);
     if (!fs.is_open()) {
         LOG(ERROR) << "KVStoreImpl::Delete - Could not open database";
@@ -127,13 +124,12 @@ bool KVStoreImpl::Delete(const std::string &key) {
     }
 
     fs.close();
-    _mutex.unlock();
     return isDeleted;
 }
 
 
 void KVStoreImpl::Close() {
-    _mutex.lock();
+    std::lock_guard<std::mutex> lock(_mutex);
     std::ifstream ifs(_filename, ios::in | ios::binary);
     if (!ifs.is_open()) {
        LOG(ERROR) << "Closing failed - input database could not be opened";
@@ -165,7 +161,6 @@ void KVStoreImpl::Close() {
 
     remove(_filename.c_str());
     rename("temp.db", _filename.c_str());
-    _mutex.unlock();
 }
 
 
@@ -198,7 +193,7 @@ void KVStoreImpl::ReadData() {
 
 
 int KVStoreImpl::OpenDB(const std::string& filename, bool truncate) {
-    _mutex.lock();
+    std::lock_guard<std::mutex> lock(_mutex);
     _filename = filename;
     int status = 1;
 
@@ -221,6 +216,5 @@ int KVStoreImpl::OpenDB(const std::string& filename, bool truncate) {
     }
 
     LOG(INFO) << "Opened database " << _filename;
-    _mutex.unlock();
     return status;
 }
