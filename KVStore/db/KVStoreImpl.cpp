@@ -23,7 +23,7 @@ void KVStore::Open(const std::string& filename, KVStore **db, bool truncate) {
 
 
 void KVStoreImpl::Set(const std::string &key, const std::string &value) {
-    std::lock_guard<std::mutex> lock(_mutex);
+    std::lock_guard<std::shared_timed_mutex> lock(_mutex);
     std::fstream fs(_filename, ios::in | ios::out | ios::binary);
     if (!fs.is_open()) {
         LOG(ERROR) << "KVStoreImpl::Set - Could not open database";
@@ -47,7 +47,7 @@ void KVStoreImpl::Set(const std::string &key, const std::string &value) {
 
 
 std::experimental::optional<std::string> KVStoreImpl::Get(const std::string &key) {
-    std::lock_guard<std::mutex> lock(_mutex);
+    std::shared_lock<std::shared_timed_mutex> lock(_mutex);
     std::ifstream ifs(_filename, ios::in | ios::binary);
     if (!ifs.is_open()) {
         LOG(ERROR) << "KVStoreImpl::Get - Could not open database";
@@ -76,7 +76,7 @@ std::experimental::optional<std::string> KVStoreImpl::Get(const std::string &key
 
 
 bool KVStoreImpl::Delete(const std::string &key) {
-    std::lock_guard<std::mutex> lock(_mutex);
+    std::lock_guard<std::shared_timed_mutex> lock(_mutex);
     std::fstream fs(_filename, ios::in | ios::out | ios::binary);
     if (!fs.is_open()) {
         LOG(ERROR) << "KVStoreImpl::Delete - Could not open database";
@@ -104,7 +104,7 @@ bool KVStoreImpl::Delete(const std::string &key) {
 
 
 void KVStoreImpl::Close() {
-    std::lock_guard<std::mutex> lock(_mutex);
+    std::lock_guard<std::shared_timed_mutex> lock(_mutex);
     std::ifstream ifs(_filename, ios::in | ios::binary);
     if (!ifs.is_open()) {
        LOG(ERROR) << "Closing failed - input database could not be opened";
@@ -163,7 +163,7 @@ void KVStoreImpl::ReadData() {
 
 
 int KVStoreImpl::OpenDB(const std::string& filename, bool truncate) {
-    std::lock_guard<std::mutex> lock(_mutex);
+    std::lock_guard<std::shared_timed_mutex> lock(_mutex);
     _filename = filename;
     int status = 1;
 

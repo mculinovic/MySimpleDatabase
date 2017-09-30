@@ -10,6 +10,7 @@
 #include <string>
 #include <mutex>
 #include <unordered_map>
+#include <shared_mutex>
 
 class KVStoreImpl: public KVStore {
 public:
@@ -26,7 +27,7 @@ public:
 
 private:
     friend class KVStore;
-    std::mutex _mutex;
+    std::shared_timed_mutex _mutex;
     std::string _filename;
     bool _isLoggerInitialized;
     std::unordered_map<std::string, int> _offset;
