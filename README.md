@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
 
 This code can be compiled from MySimpleDatabase root directory with:
 ```bash
-g++ example.cpp -std=c++11 -IKVStore/include/ -Lbuild/KVStore/lib -lKVStore -o example
+g++ example.cpp -std=c++14 -IKVStore/include/ -Lbuild/KVStore/lib -lKVStore -Lbuild/KVStore/vendor/glog-0.3.5 -lglog -o example
 ```
 
 On the other hand, if you are using `cmake` you can add KVStore to your project by adding commands `add_subdirectory(vendor/KVStore EXCLUDE_FROM_ALL)` and `target_link_libraries(your_exe KVStore)` to your main CMakeLists file.
