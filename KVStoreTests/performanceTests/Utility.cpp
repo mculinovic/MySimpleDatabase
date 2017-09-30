@@ -1,6 +1,8 @@
-//
-// Created by mculinovic on 9/24/2017.
-//
+/**
+ * @file Utility.h
+ * @author Marko Culinovic <marko.culinovic@gmail.com>
+ * @brief Performance tests utility implementation file
+ */
 
 #include "Utility.h"
 
