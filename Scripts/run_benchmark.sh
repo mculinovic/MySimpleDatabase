@@ -8,7 +8,7 @@ cp ./KVStoreTests/databases/test10k.db tmp/benchmark_delete_10k.db
 
 #set log for database using GLOG environment variable
 mkdir benchmark_logs
-GLOG_log_dir="./benchmark_logs"
+export GLOG_log_dir="./benchmark_logs"
 
 # create output folder for benchmarks
 mkdir benchmark_output

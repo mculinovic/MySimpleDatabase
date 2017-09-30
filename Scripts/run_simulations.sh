@@ -8,7 +8,7 @@ cp ./KVStoreTests/databases/test10k.db tmp/simulate_get_10k.db
 
 #set log for database using GLOG environment variable
 mkdir simulation_logs
-GLOG_log_dir="./simulation_logs"
+export GLOG_log_dir="./simulation_logs"
 
 # create output folder for benchmarks
 mkdir simulation_output
