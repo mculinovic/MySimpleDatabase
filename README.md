@@ -69,16 +69,44 @@ On the other hand, if you are using `cmake` you can add KVStore to your project 
 ### Tests
 
 Tests should be ran via scripts in MySimpleDatabase/Scripts directory.
-Also, because of hardcoded file paths they should be executed from MySimpleDatabase directory.
+Furthermore, because of hardcoded file paths they should be executed from MySimpleDatabase directory.
+All tests are executed on a database with 10k records. Maximum number of operations made in each test
+and simulation is 1k.
 
-Unit tests:
+Run unit tests:
 ```./Scripts/run_unit_tests.sh ```
 
-Performance tests:
+Script runs all unit tests and writes the database log to ```./unit_tests_logs``` directory.
+
+Run performance tests:
 ```./Scripts/run_benchmark.sh```
 
-Simulations:
+Script runs all performance tests and writes the database log to ```./benchmark_logs``` directory.
+Results of tests are written in ```./benhcmark_output/benchmark.json```.
+
+Run simulations:
 ```./Scripts/run_simulations.sh```
+Script runs all simulations and writes the database log to ```./simulation_logs``` directory.
+Results of tests are written in ```./simulation_output/simulation.json```.
+
+Results of a test can be compared using the benchmark tool:
+
+```python KVStoreTests/vendor/benchmark/tools/compare_bench.py <benchmark_output1.json> <benchmark_output2.json>```
+
+## Results
+
+Results of benchmarks and simulations for each version can be found in the results directory of the repository. 
+
+Version 0.1 is implemented as a simple file stream input output locked with a ```mutex``` which was manually
+locked and unlocked. This version was used as a starting point for the testing environment.
+
+Version 0.2 uses a ```lock_guard``` instead of manual locking/unlocking and on opening caches offset
+of each record in file. This way, iterating over a file to search for a record with a key for each operation
+was removed. As a result, all operations had better performance.
+
+Version 0.3 tried to use ```shared_timed_mutex``` instead of a basic ```mutex``` and a ```shared_lock```
+instead of a ```lock_guard``` for better multithreaded performance of ```KVStore:Get``` operation. Some improvements
+in performance can be seen, but they weren't as expected. These results should be looked into more thoroughly.
 
 ## Contact information
 
